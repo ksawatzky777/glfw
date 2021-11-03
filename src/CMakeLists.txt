@@ -5,15 +5,6 @@ add_library(glfw ${GLFW_LIBRARY_TYPE}
                  internal.h mappings.h context.c init.c input.c monitor.c
                  vulkan.c window.c)
 
-add_custom_target(update_mappings
-    COMMAND "${CMAKE_COMMAND}" -P "${GLFW_SOURCE_DIR}/CMake/GenerateMappings.cmake" mappings.h.in mappings.h
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    COMMENT "Updating gamepad mappings from upstream repository"
-    SOURCES mappings.h.in "${GLFW_SOURCE_DIR}/CMake/GenerateMappings.cmake"
-    VERBATIM)
-
-set_target_properties(update_mappings PROPERTIES FOLDER "GLFW3")
-
 if (_GLFW_COCOA)
     target_sources(glfw PRIVATE cocoa_platform.h cocoa_joystick.h posix_thread.h
                                 nsgl_context.h egl_context.h osmesa_context.h
@@ -114,7 +105,7 @@ set_target_properties(glfw PROPERTIES
                       C_STANDARD 99
                       C_EXTENSIONS OFF
                       DEFINE_SYMBOL _GLFW_BUILD_DLL
-                      FOLDER "GLFW3")
+                      FOLDER "dependencies")
 
 target_include_directories(glfw PUBLIC
                            "$<BUILD_INTERFACE:${GLFW_SOURCE_DIR}/include>"
